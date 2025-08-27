@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* App-wide helpers */
+.btn-primary {
+  @apply inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition;
+}
+.btn-secondary {
+  @apply inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-semibold border border-gray-300 dark:border-white/15 hover:bg-gray-50 dark:hover:bg-white/5 transition;
+}
+
+/* Print: remove dark background on previews for PDFs */
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; color: #000; }
+}
