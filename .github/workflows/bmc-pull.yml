@@ -1,0 +1,32 @@
+name: BMC Supporters Pull
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # every 6 hours
+  workflow_dispatch: {}      # allow manual run
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Run BMC pull
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          BMC_API_KEY: ${{ secrets.BMC_API_KEY }}
+          # Optional overrides if BMC provides different endpoints:
+          # BMC_BASE_URL: https://api.buymeacoffee.com/v1
+          # BMC_PAGE_SIZE: "100"
+        run: node scripts/pull-bmc.mjs
